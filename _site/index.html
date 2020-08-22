@@ -1,21 +1,263 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Epic 7 Simple Calculator</title>
-  </head>
-  <body>
-	<div>
-	<h1>亂速計算</h1>
-		<label>一速</label>
-		<input id="CharSpeedfirst" value="150" onchange="calcCRRandomPossibility()">
-		<label>二速</label>
-		<input id="CharSpeedsecond" value="150" onchange="calcCRRandomPossibility()">
-		<label id="possibility">可能</label>
-		<label>亂速</label>
-	</div>
-	
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/mystyle.css">
+		<title>Epic 7 工具箱(陽春版)</title>
+	</head>
+	<body  onload="afterLoaded()">
+		<div class="pageBG">
+			<h1 style="text-align:center" class="mainTitle">Epic 7 工具箱(陽春版)</h1>
+			<div id="SpeedDisorderBlock" class="blockBG">
+				<h2 class="blockTitleBG">亂速可能性評估</h2>
+				<div>
+					<label>一速</label>
+					<input id="CharSpeedfirstSlider" class="slider" type="range" min="50" max="300" value="150" onmousemove="speedSliderValueChanged()">
+					<input type="text" id="CharSpeedfirst" value="150" class="inputTextBox" onchange="speedInputTextChanged()">
+					<br>
+					<label>二速</label>
+					<input id="CharSpeedsecondSlider" class="slider" type="range" min="50" max="300" value="150" onmousemove="speedSliderValueChanged()">
+					<input type="text" id="CharSpeedsecond" value="150" class="inputTextBox" onchange="speedInputTextChanged()">
+				</div>
+
+				<div>
+					<span id="possibility"></span>
+				</div>
+
+				<div>
+					<label>一速不變，二速需低於 </label>
+					<label id="highestSecSpeed">???</label>
+					<label> 才不會亂速</label><br>
+					<label>二速不變，一速需高於 </label>
+					<label id="lowestFirSpeed">???</label>
+					<label> 才不會亂速</label><br>
+				</div>
+			</div>
+
+			<div class="blockBG" id="EquipmentValueCalcBlock">
+					<h2 class="blockTitleBG">懶人裝備計分</h1>
+					<h3 class="subTitleText">85裝平均為54，88/90裝平均為63，白值不計分</h2>
+					<table class="tableAlign">
+						<tr>
+							<th>
+								<label class="table-title">%數</label>
+							</th>
+							<th>
+								<label class="table-title">%數</label>
+							</th>
+							<th>
+								<label class="table-title">%數</label>
+							</th>
+							<th>
+								<label class="table-title">%數</label>
+							</th>
+							<th>
+								<label class="table-title">暴率</label>
+							</th>
+							<th>
+								<label class="table-title">速度</label>
+							</th>
+							<th>
+								<label class="table-title">總分</label>
+							</th>
+							<th></th><th></th>
+						</tr>
+						<tr>
+							<td>
+								<input id="percentValue1" value="0" class="inputTextBox" onchange="calcEquipmentValue()"> 
+							</td>
+							<td>
+								<input id="percentValue2" value="0" class="inputTextBox" onchange="calcEquipmentValue()"> 
+							</td>
+							<td>
+								<input id="percentValue3" value="0" class="inputTextBox" onchange="calcEquipmentValue()"> 
+							</td>
+							<td>
+								<input id="percentValue4" value="0" class="inputTextBox" onchange="calcEquipmentValue()"> 
+							</td>
+							<td>
+								<input id="critRate" value="0" class="inputTextBox" onchange="calcEquipmentValue()">
+							</td>
+							<td>
+								<input id="speed" value="0" class="inputTextBox" onchange="calcEquipmentValue()">
+							</td>
+							<th>
+								<label id="TotalValue">0</label>
+							</th>
+							<!-- <th>
+								<button type="button" onclick="calcEquipmentValue()">計算</button>
+							</th> -->
+							<th>
+								<button type="button" onclick="resetEquipValue()">重置</button>
+							</th>
+						</tr>
+					</table>
+			</div>
+
+			<div class="blockBG" id="EfficientHPCalcBlock">
+				<h2 class="blockTitleBG">有效血量計算</h2>
+				<div>
+					<table class="tableAlign">
+						<tr>
+							<th><label>有效血量</label></th>
+							<td><span id="efficientHP1">0</span></td>
+						</tr>
+					</table>
+					<label>血量</label>
+					<input id="MaxHPSlider1" class="slider" type="range" min="4000" max="50000" value="10000" onmousemove="HPSliderValueChanged(this, 'MaxHPInput1', 'DefInput1', 'efficientHP1')">
+					<input type="text" id="MaxHPInput1" value="10000" class="inputTextBox" onchange="HPInputTextChanged(this, 'MaxHPSlider1', 'DefInput1', 'efficientHP1')">
+					<br>
+					<label>防禦</label>
+					<input id="DefSlider1" class="slider" type="range" min="1" max="4000" value="1000" onmousemove="DefSliderValueChanged(this, 'DefInput1', 'MaxHPInput1', 'efficientHP1')">
+					<input type="text" id="DefInput1" value="1000" class="inputTextBox" onchange="DefInputTextChanged(this, 'DefSlider1', 'MaxHPInput1', 'efficientHP1')">
+					<br>
+				</div>
+				<div>
+					<table class="tableAlign">
+						<tr>
+							<th><label>有效血量</label></th>
+							<td><span id="efficientHP2">0</span></td>
+						</tr>
+					</table>
+					<!-- <label>有效血量: </label><span id="efficientHP2"></span><br> -->
+					<label>血量</label>
+					<input id="MaxHPSlider2" class="slider" type="range" min="4000" max="50000" value="10000" onmousemove="HPSliderValueChanged(this, 'MaxHPInput2', 'DefInput2', 'efficientHP2')">
+					<input type="text" id="MaxHPInput2" value="10000" class="inputTextBox" onchange="HPInputTextChanged(this, 'MaxHPSlider2', 'DefInput2', 'efficientHP2')">
+					<br>
+					<label>防禦</label>
+					<input id="DefSlider2" class="slider" type="range" min="1" max="4000" value="1000" onmousemove="DefSliderValueChanged(this, 'DefInput2', 'MaxHPInput2', 'efficientHP2')">
+					<input type="text" id="DefInput2" value="1000" class="inputTextBox" onchange="DefInputTextChanged(this, 'DefSlider2', 'MaxHPInput2', 'efficientHP2')">
+					<br>
+				</div>
+			</div>
+
+			<div class="blockBG" id="GWReportBlock">
+				<h2 class="blockTitleBG">公會戰報產生器(測試版)</h2>
+				<div>
+					<button type="button" onclick="resetGWValue()">重置</button>
+				</div>
+				<div>
+					<!-- 
+						我方一速  自拉%數
+						對方一速角名字  對方一速%數  自拉%數  血量  神器  是否免疫  是否反擊  是否高抗
+						對方二速角名字  對方一速%數  自拉%數  血量  神器  是否免疫  是否反擊  是否高抗
+						對方三速角名字  對方一速%數  自拉%數  血量  神器  是否免疫  是否反擊  是否高抗
+					-->
+					<label>我方一速</label>
+					<input type="text" id="GWMyFirstSpeedInput" value="270" class="inputTextBox" onchange="GWMyFirstSpeedChanged()">
+					<label>拉/退條%數</label>
+					<input type="text" id="GWMyFirstSpeedCRPushInput" value="0" class="inputTextBox" onchange="GWMyFirstSpeedChanged()" title="波濤、光法濟斯、騎槍…etc，拉條輸入正值，退條輸入負值" placeholder="波濤、光法濟斯、騎槍…etc，拉條輸入正值，退條輸入負值">
+					<label id="crpushWarning"></label>
+				</div>
+
+				<div>
+					<label>敵方一速角色</label>
+					<input type="text" id="GWEnFirstSpeedNameInput" value="??" class="inputTextBox" onchange="GWFirstEnInfoChanged()">
+					<label>速攻條%數</label>
+					<input type="text" id="GWEnFirstSpeedInput" value="??" class="inputTextBox" onchange="GWFirstEnInfoChanged()">
+					<!-- <label>自拉%數</label>
+					<input type="text" id="GWEnFirstSpeedCRPushInput" value="0" class="inputTextBox" onchange="GWFirstEnInfoChanged()"> -->
+					<label>血量</label>
+					<input type="text" id="GWEnFirstSpeedHPInput" value="??" class="inputTextBox" onchange="GWFirstEnInfoChanged()">
+					<label>神器</label>
+					<input type="text" id="GWEnFirstSpeedArtiInput" value="??" class="inputTextBox" onchange="GWFirstEnInfoChanged()">
+					<input id="GWEnFirstSpeedImmuneCB" type="checkbox" onchange="GWFirstEnInfoChanged()">免疫
+					<input id="GWEnFirstSpeedCounterCB" type="checkbox" onchange="GWFirstEnInfoChanged()">反擊
+					<input id="GWEnFirstSpeedHighResCB" type="checkbox" onchange="GWFirstEnInfoChanged()">高抗
+				</div>
+				
+				<div>
+					<label>敵方二速角色</label>
+					<input type="text" id="GWEnSecondSpeedNameInput" value="??" class="inputTextBox" onchange="GWSecondEnInfoChanged()">
+					<label>速攻條%數</label>
+					<input type="text" id="GWEnSecondSpeedInput" value="??" class="inputTextBox" onchange="GWSecondEnInfoChanged()">
+					<!-- <label>自拉%數</label>
+					<input type="text" id="GWEnSecondSpeedCRPushInput" value="0" class="inputTextBox" onchange="GWSecondEnInfoChanged()"> -->
+					<label>血量</label>
+					<input type="text" id="GWEnSecondSpeedHPInput" value="??" class="inputTextBox" onchange="GWSecondEnInfoChanged()">
+					<label>神器</label>
+					<input type="text" id="GWEnSecondSpeedArtiInput" value="??" class="inputTextBox" onchange="GWSecondEnInfoChanged()">
+					<input id="GWEnSecondSpeedImmuneCB" type="checkbox" onchange="GWSecondEnInfoChanged()">免疫
+					<input id="GWEnSecondSpeedCounterCB" type="checkbox" onchange="GWSecondEnInfoChanged()">反擊
+					<input id="GWEnSecondSpeedHighResCB" type="checkbox" onchange="GWSecondEnInfoChanged()">高抗
+				</div>
+				
+				<div>
+					<label>敵方三速角色</label>
+					<input type="text" id="GWEnThirdSpeedNameInput" value="??" class="inputTextBox" onchange="GWThirdEnInfoChanged()">
+					<label>速攻條%數</label>
+					<input type="text" id="GWEnThirdSpeedInput" value="??" class="inputTextBox" onchange="GWThirdEnInfoChanged()">
+					<!-- <label>自拉%數</label>
+					<input type="text" id="GWEnThirdSpeedCRPushInput" value="0" class="inputTextBox" onchange="GWThirdEnInfoChanged()"> -->
+					<label>血量</label>
+					<input type="text" id="GWEnThirdSpeedHPInput" value="??" class="inputTextBox" onchange="GWThirdEnInfoChanged()">
+					<label>神器</label>
+					<input type="text" id="GWEnThirdSpeedArtiInput" value="??" class="inputTextBox" onchange="GWThirdEnInfoChanged()">
+					<input id="GWEnThirdSpeedImmuneCB" type="checkbox" onchange="GWThirdEnInfoChanged()">免疫
+					<input id="GWEnThirdSpeedCounterCB" type="checkbox" onchange="GWThirdEnInfoChanged()">反擊
+					<input id="GWEnThirdSpeedHighResCB" type="checkbox" onchange="GWThirdEnInfoChanged()">高抗
+				</div>
+
+				<!-- <div>
+					<textarea id="GWCommentInput" rows="4" cols="60" onchange="GWCommentChanged()">補充說明</textarea>
+				</div> -->
+
+				<div>
+					<table class="tableAlign">
+						<tr>
+							<td>
+								<label id="GWMyInfo"></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label id="GWFirstEnInfo"></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label id="GWSecondEnInfo"></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label id="GWThirdEnInfo"></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label id="GWComment"></label>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div>
+				<table class="powerByForm">
+					<tr>
+						<td>
+							<label style="color: #aaa">Powered by GameXLife 迷路</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label style="color: #aaa;">Version: Alpha v1.0</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label style="color: #aaa">Bug回報：</label>
+							<a href="mailto:gamelifetw@gmail.com" class="email">My Gmail</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div>
+			</div>
+		</div>
+	</body>
 	<script src="scripts\calculatorFunctions.js"></script>
-  </body>
 </html>
 

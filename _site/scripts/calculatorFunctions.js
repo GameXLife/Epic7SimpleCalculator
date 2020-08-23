@@ -154,7 +154,7 @@ function calcGWCR(enCR){
 
 	if(crpush === 0){
 		let fastest = (mine * enemy/95).toFixed(2);
-		let lowest = (mine * (enemy - 5)/100).toFixed(2);
+		let lowest = (mine * enemy/100).toFixed(2);
 		
 		let res = lowest + "~" + fastest;
 		return res;
@@ -162,13 +162,13 @@ function calcGWCR(enCR){
 		return "??~??";
 	}else if(crpush > 0){
 		let fastest = (mine / ((enemy-crpush-5)/100)).toFixed(2);
-		let lowest = (mine / ((enemy - crpush)/100) * 0.95).toFixed(2);
+		let lowest = (mine / ((enemy - crpush)/100)).toFixed(2);
 		
 		let res = lowest + "~" + fastest;
 		return res;
 	}else if(crpush < 0){
 		let fastest = (mine/((100-crpush-5)/100) * (enemy/100)).toFixed(2);
-		let lowest = (mine/((100-crpush)/100) * ((enemy-5)/100)).toFixed(2);
+		let lowest = (mine/((100-crpush)/100) * ((enemy)/100)).toFixed(2);
 		
 		let res = lowest + "~" + fastest;
 		return res;

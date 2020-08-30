@@ -22,6 +22,8 @@ const elementName = {
 	GWMyFirstSpeedInput: "#GWMyFirstSpeedInput",
 }
 
+const versionPrefix = "Version: Alpha v";
+const versionText = "1.1";
 
 function calcCRRandomPossibility(v1, v2){
 	// let v1 = $("#CharSpeedfirst");
@@ -78,40 +80,40 @@ function speedSliderValueChanged(){
 }
 
 function calcEffcientHP(hpID, defID, resultID){
-	let v1 = Number($(hpID).val());
-	let v2 = Number($(defID).val());
+	let v1 = Number($(`#${hpID}`).val());
+	let v2 = Number($(`#${defID}`).val());
 
-	$(resultID).html((v1*(v2/300+1)).toFixed(2));
+	$(`#${resultID}`).html((v1*(v2/300+1)).toFixed(2));
 }
 
 function HPInputTextChanged(hpinput, hpsliderID, definputID, resultID){
-	let s1 = $(hpsliderID);
+	let s1 = $(`#${hpsliderID}`);
 
-	s1.val(Number(hpinput.val()));
+	s1.val(Number(hpinput.value));
 
 	calcEffcientHP(hpsliderID, definputID, resultID);
 }
 
 function DefInputTextChanged(definput, defsliderID, hpinputID, resultID){
-	let s1 = $(defsliderID);
+	let s1 = $(`#${defsliderID}`);
 
-	s1.val(Number(definput.val()));
+	s1.val(Number(definput.value));
 
 	calcEffcientHP(hpinputID, defsliderID, resultID);
 }
 
 function HPSliderValueChanged(hpslider, hpinputID, definputID, resultID){
-	let v1 = $(hpinputID);
+	let v1 = $(`#${hpinputID}`);
 
-	v1.val(Number(hpslider.val()));
+	v1.val(Number(hpslider.value));
 
 	calcEffcientHP(hpinputID, definputID, resultID);
 }
 
 function DefSliderValueChanged(defslider, definputID, hpinputID, resultID){
-	let v1 = $(definputID);
+	let v1 = $(`#${definputID}`);
 
-	v1.val(Number(defslider.val()));
+	v1.val(Number(defslider.value));
 
 	calcEffcientHP(hpinputID, definputID, resultID);
 }
@@ -133,9 +135,9 @@ function calcEquipmentValue(){
 	let atkflatvalue = Number($(elementName.AtkFlatLabel).html());
 	let defflatvalue = Number($(elementName.DefFlatLabel).html());
 
-	v3 = Number(hpflatvalue === 0? 0: (v3/hpflatvalue*100).toFixed(2));
-	v4 = Number(atkflatvalue === 0? 0: (v4/atkflatvalue*100).toFixed(2));
-	v5 = Number(defflatvalue === 0? 0: (v5/defflatvalue*100).toFixed(2));
+	v3 = Number(hpflatvalue === 0? 0: (v3 / hpflatvalue * 100).toFixed(2));
+	v4 = Number(atkflatvalue === 0? 0: (v4 / atkflatvalue * 100).toFixed(2));
+	v5 = Number(defflatvalue === 0? 0: (v5 / defflatvalue * 100).toFixed(2));
 
 	let totalvalue = p1 + p2 + p3 + p4 + v1 * 1.5 + v2 * 2 + v3 + v4 + v5;
 
@@ -171,7 +173,7 @@ function GWMyFirstSpeedChanged(){
 function calcGWCR(enCR){
 	let mine = Number($("#GWMyFirstSpeedInput").val());
 	let crpush = Number($("#GWMyFirstSpeedCRPushInput").val());
-	let enemy = Number($(enCR).val());
+	let enemy = Number($(`#${enCR}`).val());
 
 	if(crpush === 0){
 		let fastest = (mine * enemy/95).toFixed(2);
@@ -293,6 +295,8 @@ function resetGWValue(){
 }
 
 function afterLoaded(){
+	$('#version').html(versionPrefix + versionText);
+
 	calcEquipmentValue();
 
 	$.ajax({
@@ -312,14 +316,17 @@ function heroStatRes(statRes){
 	calcEquipmentValue();
 }
 
-function getHeroStat(heroname){
-	$.ajax({
-		url: "https://api.epicsevendb.com/hero/"+heroname,
-		success: (response) => {
-			//console.log(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
-			heroStatRes(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
-		}
-	  })
+function getHeroStat(element){
+	let heroname = element.value;
+	if(heroname !== "nulloption"){
+		$.ajax({
+			url: "https://api.epicsevendb.com/hero/"+heroname,
+			success: (response) => {
+				//console.log(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
+				heroStatRes(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
+			}
+		});
+	}
 }
 
 
@@ -329,7 +336,7 @@ function heronamelistRes(herolist){
 	dropdownmenu.append(nulloption);
 
 	herolist.forEach(element => {
-		let option = $('<option/>').attr("value", element._id).html(element._id);//new Option(element._id, element._id);
+		let option = $('<option/>').attr("id", element._id).attr("value", element._id).html(element.name);//new Option(element._id, element._id);
 		option.on("click", function(event) { 
 			getHeroStat(element._id);
 	   } );

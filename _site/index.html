@@ -37,12 +37,15 @@
 
 			<div class="blockBG" id="EquipmentValueCalcBlock">
 					<h2 class="blockTitleBG">懶人裝備計分</h1>
-					<h3 class="subTitleText">85裝平均為54，88/90裝平均為63</h2>
+					<h3 class="subTitleText">85裝期望總分為54，88/90裝期望總分為63</h2>
 					<table class="tableAlign">
 						<tr>
 							<form>
-								<select id="heronameList">
-								</select>
+								<datalist id="heronameList">
+								</datalist>
+								<input autoComplete="on" list="heronameList" onchange="getHeroStat(this)"> 
+								<!-- <select id="heronameList">
+								</select> -->
 							</form>
 						</tr>
 						<tr>
@@ -289,7 +292,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label style="color: #aaa;">Version: Alpha v1.1</label>
+							<label id="version" style="color: #aaa;">Version: Alpha v1.1</label>
 						</td>
 					</tr>
 					<tr>
@@ -305,6 +308,7 @@
 			</div>
 		</div>
 	</body>
+	<script src="scripts\i18n.js"></script>
 	<script src="scripts\calculatorFunctions.js"></script>
 </html>
 

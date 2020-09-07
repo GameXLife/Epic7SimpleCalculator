@@ -22,8 +22,13 @@ const elementName = {
 	GWMyFirstSpeedInput: "#GWMyFirstSpeedInput",
 }
 
+const curLang = "zh";
+
 const versionPrefix = "Version: Alpha v";
 const versionText = "1.1";
+
+tempHeroNameList = {};
+tempHeroNameList[curLang] = {};
 
 function calcCRRandomPossibility(v1, v2){
 	// let v1 = $("#CharSpeedfirst");
@@ -39,16 +44,16 @@ function calcCRRandomPossibility(v1, v2){
 		if (temp <= 1.0)//只要大於1速跑到100%所需的1秒，就有可能亂速
 		{
 			$(elementName.CRDiscorderPossibility).html("UnSafe");
-			$(elementName.CRDiscorderPossibility).style.color = "red";
+			$(elementName.CRDiscorderPossibility).attr("style", "color: red");
 		}
 		else
 		{
 			$(elementName.CRDiscorderPossibility).html("Safe");
-			$(elementName.CRDiscorderPossibility).style.color = "#28FF28";
+			$(elementName.CRDiscorderPossibility).attr("style", "color: #28FF28");
 		}
 
-		$(elementName.HighestSecSpeed).html((firstspeed*0.95).toFixed(2));
-		$(elementName.LowestFirSpeed).html((secondspeed/0.95).toFixed(2));
+		$(elementName.HighestSecSpeed).html((firstspeed * 0.95).toFixed(2));
+		$(elementName.LowestFirSpeed).html((secondspeed / 0.95).toFixed(2));
 	}
 	else $(elementName.CRDiscorderPossibility).html("");
 }
@@ -317,15 +322,21 @@ function heroStatRes(statRes){
 }
 
 function getHeroStat(element){
-	let heroname = element.value;
+	let heroname = tempHeroNameList[curLang][element.value];
+	// $("#heronameInput").val(lang_HeroName[curLang][element.value]);
 	if(heroname !== "nulloption"){
 		$.ajax({
 			url: "https://api.epicsevendb.com/hero/"+heroname,
 			success: (response) => {
-				//console.log(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
 				heroStatRes(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
 			}
 		});
+	}else{
+		let obj = {};
+		obj.hp = 0;
+		obj.atk = 0;
+		obj.def = 0;
+		heroStatRes(obj);
 	}
 }
 
@@ -336,10 +347,8 @@ function heronamelistRes(herolist){
 	dropdownmenu.append(nulloption);
 
 	herolist.forEach(element => {
-		let option = $('<option/>').attr("id", element._id).attr("value", element._id).html(element.name);//new Option(element._id, element._id);
-		option.on("click", function(event) { 
-			getHeroStat(element._id);
-	   } );
+		tempHeroNameList[curLang][lang_HeroName[curLang][element._id]] = element._id;
+		let option = $('<option/>').attr("id", element._id).attr("value", lang_HeroName[curLang][element._id]);//new Option(element._id, element._id);
 		dropdownmenu.append(option);
 	});
 }

@@ -173,30 +173,36 @@ function GWMyFirstSpeedChanged(){
 		$("#crpushWarning").html("有退拉條情況下計算結果不一定正確，請小心評估");
 	}else
 		$("#crpushWarning").html("");
+	if(!Number.isNaN(Number($(`#GWEnFirstSpeedInput`).val())))
+		GWFirstEnInfoChanged();
+	if(!Number.isNaN(Number($(`#GWEnSecondSpeedInput`).val())))
+		GWSecondEnInfoChanged();
+	if(!Number.isNaN(Number($(`#GWEnThirdSpeedInput`).val())))
+		GWThirdEnInfoChanged();
 }
 
 function calcGWCR(enCR){
 	let mine = Number($("#GWMyFirstSpeedInput").val());
 	let crpush = Number($("#GWMyFirstSpeedCRPushInput").val());
 	let enemy = Number($(`#${enCR}`).val());
-
-	if(crpush === 0){
+	
+	if(Number.isNaN(crpush)){
+		return "??~??";
+	}else if(crpush === 0){
 		let fastest = (mine * enemy/95).toFixed(2);
 		let lowest = (mine * enemy/100).toFixed(2);
 		
 		let res = lowest + "~" + fastest;
 		return res;
-	}else if(Number.isNaN(crpush)){
-		return "??~??";
 	}else if(crpush > 0){
-		let fastest = (mine / ((enemy - crpush - 5) / 100)).toFixed(2);
-		let lowest = (mine / ((enemy - crpush) / 100)).toFixed(2);
+		let fastest = ( (mine / ((100 - crpush) / 100)) / ((enemy - 5) / 100)).toFixed(2);
+		let lowest = ( (mine / ((100 - crpush) / 100)) / (enemy / 100)).toFixed(2);
 		
 		let res = lowest + "~" + fastest;
 		return res;
 	}else if(crpush < 0){
-		let fastest = (mine / ((100 - crpush - 5) / 100) * (enemy / 100)).toFixed(2);
-		let lowest = (mine / ((100 - crpush) / 100) * ((enemy) / 100)).toFixed(2);
+		let fastest = ((mine / ((100 - crpush) / 100)) * (enemy / 100)).toFixed(2);
+		let lowest = ((mine / ((100 - crpush) / 100)) * ((enemy - 5) / 100)).toFixed(2);
 		
 		let res = lowest + "~" + fastest;
 		return res;
@@ -322,7 +328,7 @@ function heroStatRes(statRes){
 }
 
 function getHeroStat(element){
-	let heroname = tempHeroNameList[curLang][element.value];
+	let heroname = tempHeroNameList[curLang][element.value]?tempHeroNameList[curLang][element.value]:element.value;
 	// $("#heronameInput").val(lang_HeroName[curLang][element.value]);
 	if(heroname !== "nulloption"){
 		$.ajax({
@@ -348,7 +354,7 @@ function heronamelistRes(herolist){
 
 	herolist.forEach(element => {
 		tempHeroNameList[curLang][lang_HeroName[curLang][element._id]] = element._id;
-		let option = $('<option/>').attr("id", element._id).attr("value", lang_HeroName[curLang][element._id]);//new Option(element._id, element._id);
+		let option = $('<option/>').attr("id", element._id).attr("value", lang_HeroName[curLang][element._id]?lang_HeroName[curLang][element._id]:element._id).html(lang_HeroName[curLang][element._id]?lang_HeroName[curLang][element._id]:element._id);//new Option(element._id, element._id);
 		dropdownmenu.append(option);
 	});
 }

@@ -38,6 +38,7 @@ lang_HeroName["zh"] = {
     'ken': '肯恩',
     'kise': '綺世',
     'krau': '克勞烏',
+    'landy': '蘭帝',
     'last-rider-krau': '最後的騎士克勞烏',
     'lidica': '麗迪卡',
     'lilias': '莉莉亞斯',

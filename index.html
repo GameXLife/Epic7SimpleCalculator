@@ -36,8 +36,8 @@
 			</div>
 
 			<div class="blockBG" id="EquipmentValueCalcBlock">
-					<h2 class="blockTitleBG">懶人裝備計分</h1>
-					<h3 class="subTitleText">85裝期望總分為54，88/90裝期望總分為63</h2>
+					<h2 class="blockTitleBG">懶人裝備計分</h2>
+					<h3 class="subTitleText">78/85裝總分中位數為54，88/90裝總分中位數為63</h3>
 					<table class="tableAlign">
 						<tr>
 							<form>
@@ -49,6 +49,9 @@
 							</form>
 						</tr>
 						<tr>
+							<th>
+								<label>LV 60 未覺醒  </label>
+							</th>
 							<th>
 								<label>HP: </label>
 							</th>
@@ -67,8 +70,92 @@
 							<th>
 								<label id="heroDef">0</label>
 							</th>
+							<th>
+								<label>速度: </label>
+							</th>
+							<th>
+								<label id="heroSpeed">0</label>
+							</th>
+							<th>
+								<label>暴率: </label>
+							</th>
+							<th>
+								<label id="heroCritRate">0</label>
+							</th>
+							<th>
+								<label>暴傷: </label>
+							</th>
+							<th>
+								<label id="heroCritDmg">0</label>
+							</th>
+							<th>
+								<label>效命: </label>
+							</th>
+							<th>
+								<label id="heroEffectness">0</label>
+							</th>
+							<th>
+								<label>效抗: </label>
+							</th>
+							<th>
+								<label id="heroEffRes">0</label>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<label>LV 60 全覺醒  </label>
+							</th>
+							<th>
+								<label>HP: </label>
+							</th>
+							<th>
+								<label id="heroFAHP">0</label>
+							</th>
+							<th>
+								<label>Atk: </label>
+							</th>
+							<th>
+								<label id="heroFAAtk">0</label>
+							</th>
+							<th>
+								<label>Def: </label>
+							</th>
+							<th>
+								<label id="heroFADef">0</label>
+							</th>
+							<th>
+								<label>速度: </label>
+							</th>
+							<th>
+								<label id="heroFASpeed">0</label>
+							</th>
+							<th>
+								<label>暴率: </label>
+							</th>
+							<th>
+								<label id="heroFACritRate">0</label>
+							</th>
+							<th>
+								<label>暴傷: </label>
+							</th>
+							<th>
+								<label id="heroFACritDmg">0</label>
+							</th>
+							<th>
+								<label>效命: </label>
+							</th>
+							<th>
+								<label id="heroFAEffectness">0</label>
+							</th>
+							<th>
+								<label>效抗: </label>
+							</th>
+							<th>
+								<label id="heroFAEffRes">0</label>
+							</th>
 						</tr>
 					</table>
+					<br>
 					<table class="tableAlign">
 						<tr>
 							<th>
@@ -99,9 +186,9 @@
 								<label class="table-title">Def白值</label>
 							</th>
 							<th>
-								<label class="table-title">總分</label>
+								<label class="table-title">滿覺總分</label>
 							</th>
-							<th></th><th></th>
+							<th></th>
 						</tr>
 						<tr>
 							<td>
@@ -134,12 +221,180 @@
 							<th>
 								<label id="TotalValue">0</label>
 							</th>
-							<!-- <th>
-								<button type="button" onclick="calcEquipmentValue()">計算</button>
-							</th> -->
 							<th>
 								<button type="button" onclick="resetEquipValue()">重置</button>
 							</th>
+						</tr>
+					</table>
+					<h3 class="subTitleText">目標面板需求試算</h3>
+					<table class="tableAlign">
+						<tr>
+							<th>
+								<label class="table-title">攻擊</label>
+							</th>
+							<th>
+								<label class="table-title">暴率</label>
+							</th>
+							<th>
+								<label class="table-title">暴傷</label>
+							</th>
+							<th>
+								<label class="table-title">生命</label>
+							</th>
+							<th>
+								<label class="table-title">防禦</label>
+							</th>
+							<th>
+								<label class="table-title">速度</label>
+							</th>
+							<th>
+								<label class="table-title">效命</label>
+							</th>
+							<th>
+								<label class="table-title">效抗</label>
+							</th>
+							<th></th>
+						</tr>
+						<tr>
+							<td>
+								<input id="targetATKValue"" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()"> 
+							</td>
+							<td>
+								<input id="targetCritRateValue" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()"> 
+							</td>
+							<td>
+								<input id="targetCritDMGValue" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()"> 
+							</td>
+							<td>
+								<input id="targetHPValue" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()"> 
+							</td>
+							<td>
+								<input id="targetDEFValue" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()">
+							</td>
+							<td>
+								<input id="targetSpeedValue" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()">
+							</td>
+							<td>
+								<input id="targetEffectValue"" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()">
+							</td>
+							<td>
+								<input id="targetEffResValue" value="0" class="inputTextBox" onchange="calcEquipmentNeedValue()">
+							</td>
+							<th>
+								<button type="button" onclick="resetEquipNeedValue()">重置</button>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<label class="table-title">85裝</label>
+							</th>
+							<th>
+								<label class="table-title">攻擊%</label>
+							</th>
+							<th>
+								<label class="table-title">暴率</label>
+							</th>
+							<th>
+								<label class="table-title">暴傷</label>
+							</th>
+							<th>
+								<label class="table-title">生命%</label>
+							</th>
+							<th>
+								<label class="table-title">防禦%</label>
+							</th>
+							<th>
+								<label class="table-title">速度</label>
+							</th>
+							<th>
+								<label class="table-title">效命</label>
+							</th>
+							<th>
+								<label class="table-title">效抗</label>
+							</th>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<label id="lv85needATKPercent" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv85needCritRate" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv85needCritDMG" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv85needHPPercent" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv85needDEFPercent" class="inputTextBox"></label>
+							</td>
+							<td>
+								<label id="lv85needSpeed" class="inputTextBox"></label>
+							</td>
+							<td>
+								<label id="lv85needEffectness" class="inputTextBox"></label>
+							</td>
+							<td>
+								<label id="lv85needEffRes" class="inputTextBox"></label>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="table-title">90裝</label>
+							</th>
+							<th>
+								<label class="table-title">攻擊%</label>
+							</th>
+							<th>
+								<label class="table-title">暴率</label>
+							</th>
+							<th>
+								<label class="table-title">暴傷</label>
+							</th>
+							<th>
+								<label class="table-title">生命%</label>
+							</th>
+							<th>
+								<label class="table-title">防禦%</label>
+							</th>
+							<th>
+								<label class="table-title">速度</label>
+							</th>
+							<th>
+								<label class="table-title">效命</label>
+							</th>
+							<th>
+								<label class="table-title">效抗</label>
+							</th>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<label id="lv90needATKPercent" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv90needCritRate" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv90needCritDMG" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv90needHPPercent" class="inputTextBox"> </label>
+							</td>
+							<td>
+								<label id="lv90needDEFPercent" class="inputTextBox"></label>
+							</td>
+							<td>
+								<label id="lv90needSpeed" class="inputTextBox"></label>
+							</td>
+							<td>
+								<label id="lv90needEffectness" class="inputTextBox"></label>
+							</td>
+							<td>
+								<label id="lv90needEffRes" class="inputTextBox"></label>
+							</td>
 						</tr>
 					</table>
 			</div>
@@ -292,7 +547,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label id="version" style="color: #aaa;">Version: Alpha v1.1</label>
+							<label id="version" style="color: #aaa;">Version: Alpha v1.2</label>
 						</td>
 					</tr>
 					<tr>

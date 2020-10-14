@@ -15,9 +15,52 @@ const elementName = {
 	HpFlat: "#hpflat",
 	AtkFlat: "#atkflat",
 	DefFlat: "#defflat",
-	HpFlatLabel: "#heroHP",
-	AtkFlatLabel: "#heroAtk",
-	DefFlatLabel: "#heroDef",
+
+	HpNoAwakenFlatLabel: "#heroHP",
+	AtkNoAwakenFlatLabel: "#heroAtk",
+	DefNoAwakenFlatLabel: "#heroDef",
+	SpeedNoAwakenFlatLabel: "#heroSpeed",
+	CritRateNoAwakenFlatLabel: "#heroCritRate",
+	CritDmgNoAwakenFlatLabel: "#heroCritDmg",
+	EffectnessNoAwakenFlatLabel: "#heroEffectness",
+	EffResNoAwakenFlatLabel: "#heroEffRes",
+
+	HpFullyAwakenFlatLabel: "#heroFAHP",
+	AtkFullyAwakenFlatLabel: "#heroFAAtk",
+	DefFullyAwakenFlatLabel: "#heroFADef",
+	SpeedFullyAwakenFlatLabel: "#heroFASpeed",
+	CritRateFullyAwakenFlatLabel: "#heroFACritRate",
+	CritDmgFullyAwakenFlatLabel: "#heroFACritDmg",
+	EffectnessFullyAwakenFlatLabel: "#heroFAEffectness",
+	EffResFullyAwakenFlatLabel: "#heroFAEffRes",
+
+	TargetATKValue: "#targetATKValue",
+	TargetCritRateValue: "#targetCritRateValue",
+	TargetCritDMGValue: "#targetCritDMGValue",
+	TargetHPValue: "#targetHPValue",
+	TargetDEFValue: "#targetDEFValue",
+	TargetSpeedValue: "#targetSpeedValue",
+	TargetEffectValue: "#targetEffectValue",
+	TargetEffResValue: "#targetEffResValue",
+
+	lv85needATKPercent: "#lv85needATKPercent",
+	lv85needCritRate: "#lv85needCritRate",
+	lv85needCritDMG: "#lv85needCritDMG",
+	lv85needHPPercent: "#lv85needHPPercent",
+	lv85needDEFPercent: "#lv85needDEFPercent",
+	lv85needSpeed: "#lv85needSpeed",
+	lv85needEffectness: "#lv85needEffectness",
+	lv85needEffRes: "#lv85needEffRes",
+	
+	lv90needATKPercent: "#lv90needATKPercent",
+	lv90needCritRate: "#lv90needCritRate",
+	lv90needCritDMG: "#lv90needCritDMG",
+	lv90needHPPercent: "#lv90needHPPercent",
+	lv90needDEFPercent: "#lv90needDEFPercent",
+	lv90needSpeed: "#lv90needSpeed",
+	lv90needEffectness: "#lv90needEffectness",
+	lv90needEffRes: "#lv90needEffRes",
+
 	TotalValue: "#TotalValue",
 	GWMyFirstSpeedInput: "#GWMyFirstSpeedInput",
 }
@@ -27,8 +70,19 @@ const curLang = "zh";
 const versionPrefix = "Version: Alpha v";
 const versionText = "1.1";
 
+const lv85ATkValue = 500;
+const lv85HPValue = 2700;
+const lv85DefValue = 300;
+const lv85SpdValue = 40;
+const lv90ATkValue = 525;
+const lv90HPValue = 2835;
+const lv90DefValue = 310;
+const lv90SpdValue = 45;
+
 tempHeroNameList = {};
 tempHeroNameList[curLang] = {};
+
+currentState = {};
 
 function calcCRRandomPossibility(v1, v2){
 	// let v1 = $("#CharSpeedfirst");
@@ -136,9 +190,9 @@ function calcEquipmentValue(){
 	let v4 = Number($(elementName.AtkFlat).val());
 	let v5 = Number($(elementName.DefFlat).val());
 
-	let hpflatvalue = Number($(elementName.HpFlatLabel).html());
-	let atkflatvalue = Number($(elementName.AtkFlatLabel).html());
-	let defflatvalue = Number($(elementName.DefFlatLabel).html());
+	let hpflatvalue = Number($(elementName.HpFullyAwakenFlatLabel).html());
+	let atkflatvalue = Number($(elementName.AtkFullyAwakenFlatLabel).html());
+	let defflatvalue = Number($(elementName.DefFullyAwakenFlatLabel).html());
 
 	v3 = Number(hpflatvalue === 0? 0: (v3 / hpflatvalue * 100).toFixed(2));
 	v4 = Number(atkflatvalue === 0? 0: (v4 / atkflatvalue * 100).toFixed(2));
@@ -318,13 +372,96 @@ function afterLoaded(){
 	  })
 }
 
-function heroStatRes(statRes){
+function heroNoAwakenStatRes(statRes){
 	// console.log(statRes);
-	$(elementName.HpFlatLabel).html(statRes.hp);
-	$(elementName.AtkFlatLabel).html(statRes.atk);
-	$(elementName.DefFlatLabel).html(statRes.def);
+	$(elementName.HpNoAwakenFlatLabel).html(statRes.hp);
+	$(elementName.AtkNoAwakenFlatLabel).html(statRes.atk);
+	$(elementName.DefNoAwakenFlatLabel).html(statRes.def);
+	$(elementName.SpeedNoAwakenFlatLabel).html(statRes.spd);
+	$(elementName.CritRateNoAwakenFlatLabel).html(`${(statRes.chc * 100).toFixed(2)}%`);
+	$(elementName.CritDmgNoAwakenFlatLabel).html(`${(statRes.chd * 100).toFixed(2)}%`);
+	$(elementName.EffectnessNoAwakenFlatLabel).html(`${(statRes.eff * 100).toFixed(2)}%`);
+	$(elementName.EffResNoAwakenFlatLabel).html(`${(statRes.efr * 100).toFixed(2)}%`);
 
 	calcEquipmentValue();
+}
+
+function heroFullyAwakenStatRes(statRes){
+	// console.log(statRes);
+	$(elementName.HpFullyAwakenFlatLabel).html(statRes.hp);
+	$(elementName.AtkFullyAwakenFlatLabel).html(statRes.atk);
+	$(elementName.DefFullyAwakenFlatLabel).html(statRes.def);
+	$(elementName.SpeedFullyAwakenFlatLabel).html(statRes.spd);
+	$(elementName.CritRateFullyAwakenFlatLabel).html(`${(statRes.chc * 100).toFixed(2)}%`);
+	$(elementName.CritDmgFullyAwakenFlatLabel).html(`${(statRes.chd * 100).toFixed(2)}%`);
+	$(elementName.EffectnessFullyAwakenFlatLabel).html(`${(statRes.eff * 100).toFixed(2)}%`);
+	$(elementName.EffResFullyAwakenFlatLabel).html(`${(statRes.efr * 100).toFixed(2)}%`);
+
+	calcEquipmentValue();
+}
+
+function calcEquipmentNeedValue(){
+	if(currentState === {}) return;
+
+	let targetATK = $(elementName.TargetATKValue).val();
+	let targetCR = $(elementName.TargetCritRateValue).val();
+	let targetCDMG = $(elementName.TargetCritDMGValue).val();
+	let targetHP = $(elementName.TargetHPValue).val();
+	let targetDEF = $(elementName.TargetDEFValue).val();
+	let targetSpd = $(elementName.TargetSpeedValue).val();
+	let targetEff = $(elementName.TargetEffectValue).val();
+	let targetEffRes = $(elementName.TargetEffResValue).val();
+
+	//lv85
+	let equip85Atk = ((targetATK < (currentState.atk + lv85ATkValue)))? 0:((targetATK - lv85ATkValue)/currentState.atk * 100).toFixed(2);
+	let equip85HP = ((targetHP < (currentState.hp + lv85HPValue)))? 0:((targetHP - lv85HPValue)/currentState.hp * 100).toFixed(2);
+	let equip85DEF = ((targetDEF < (currentState.def + lv85DefValue)))? 0:((targetDEF - lv85DefValue)/currentState.def * 100).toFixed(2);
+	let equip85Spd = targetSpd < currentState.spd? 0:(targetSpd - currentState.spd);
+	let equip85CR = targetCR < currentState.chc? 0:(targetCR - currentState.chc * 100).toFixed(2);
+	let equip85CDMG = targetCDMG < currentState.chd? 0:(targetCDMG - currentState.chd * 100).toFixed(2);
+	let equip85Eff = targetEff < currentState.eff? 0:(targetEff - currentState.eff * 100).toFixed(2);
+	let equip85EffRes = targetEffRes < currentState.efr? 0:(targetEffRes - currentState.efr * 100).toFixed(2);
+
+	$(elementName.lv85needATKPercent).html(`${equip85Atk}%`);
+	$(elementName.lv85needCritRate).html(`${equip85CR}%`);
+	$(elementName.lv85needCritDMG).html(`${equip85CDMG}%`);
+	$(elementName.lv85needHPPercent).html(`${equip85HP}%`);
+	$(elementName.lv85needDEFPercent).html(`${equip85DEF}%`);
+	$(elementName.lv85needSpeed).html(`${equip85Spd}`);
+	$(elementName.lv85needEffectness).html(`${equip85Eff}%`);
+	$(elementName.lv85needEffRes).html(`${equip85EffRes}%`);
+	
+	//lv90
+	let equip90Atk = ((targetATK < (currentState.atk + lv90ATkValue)))? 0:((targetATK - lv90ATkValue)/currentState.atk * 100).toFixed(2);
+	let equip90HP = ((targetHP < (currentState.hp + lv90HPValue)))? 0:((targetHP - lv90HPValue)/currentState.hp * 100).toFixed(2);
+	let equip90DEF = ((targetDEF < (currentState.def + lv90DefValue)))? 0:((targetDEF - lv90DefValue)/currentState.def * 100).toFixed(2);
+	let equip90Spd = targetSpd < currentState.spd? 0:(targetSpd - currentState.spd);
+	let equip90CR = targetCR < currentState.chc? 0:(targetCR - currentState.chc * 100).toFixed(2);
+	let equip90CDMG = targetCDMG < currentState.chd? 0:(targetCDMG - currentState.chd * 100).toFixed(2);
+	let equip90Eff = targetEff < currentState.eff? 0:(targetEff - currentState.eff * 100).toFixed(2);
+	let equip90EffRes = targetEffRes < currentState.efr? 0:(targetEffRes - currentState.efr*100).toFixed(2);
+
+	$(elementName.lv90needATKPercent).html(`${equip90Atk}%`);
+	$(elementName.lv90needCritRate).html(`${equip90CR}%`);
+	$(elementName.lv90needCritDMG).html(`${equip90CDMG}%`);
+	$(elementName.lv90needHPPercent).html(`${equip90HP}%`);
+	$(elementName.lv90needDEFPercent).html(`${equip90DEF}%`);
+	$(elementName.lv90needSpeed).html(`${equip90Spd}`);
+	$(elementName.lv90needEffectness).html(`${equip90Eff}%`);
+	$(elementName.lv90needEffRes).html(`${equip90EffRes}%`);
+}
+
+function resetEquipNeedValue(){
+	$(elementName.TargetATKValue).val(0);
+	$(elementName.TargetCritRateValue).val(0);
+	$(elementName.TargetCritDMGValue).val(0);
+	$(elementName.TargetHPValue).val(0);
+	$(elementName.TargetDEFValue).val(0);
+	$(elementName.TargetSpeedValue).val(0);
+	$(elementName.TargetEffectValue).val(0);
+	$(elementName.TargetEffResValue).val(0);
+
+	calcEquipmentNeedValue();
 }
 
 function getHeroStat(element){
@@ -334,15 +471,23 @@ function getHeroStat(element){
 		$.ajax({
 			url: "https://api.epicsevendb.com/hero/"+heroname,
 			success: (response) => {
-				heroStatRes(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
+				currentState = response.results[0].calculatedStatus.lv60SixStarFullyAwakened;
+				heroNoAwakenStatRes(response.results[0].calculatedStatus.lv60SixStarNoAwaken);
+				heroFullyAwakenStatRes(response.results[0].calculatedStatus.lv60SixStarFullyAwakened);
 			}
 		});
 	}else{
+		currentState = {};
 		let obj = {};
 		obj.hp = 0;
 		obj.atk = 0;
 		obj.def = 0;
-		heroStatRes(obj);
+		obj.spd = 0;
+		obj.chc = 0;
+		obj.chd = 0;
+		obj.eff = 0;
+		obj.efr = 0;
+		heroNoAwakenStatRes(obj);
 	}
 }
 

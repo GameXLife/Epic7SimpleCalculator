@@ -192,5 +192,12 @@ lang_HeroName["zh"] = {
     'tieria': '黛莉亞',
     'wanda': '汪達',
     'rande': 'rande',
-    'raqueas': 'raqueas'
+    'raqueas': 'raqueas',
+    'glenn': '格倫',
+    'godmother':'教母',
+    'ervalen':'艾爾巴倫',
+    'top-model-luluca':'最強偶像璐璐卡',
+    'ainos':'艾諾斯',
+    'ian':'伊安',
+    'sonia':'蘇尼婭'
 }

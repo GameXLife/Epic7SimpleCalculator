@@ -199,5 +199,8 @@ lang_HeroName["zh"] = {
     'top-model-luluca':'最強偶像璐璐卡',
     'ainos':'艾諾斯',
     'ian':'伊安',
-    'sonia':'蘇尼婭'
+    'sonia':'蘇尼婭', 
+    'flan':'芙蘭',
+    'operator-sigret':'操作員賽坷蘭特',
+    'magic-scholar-doris':'魔法學者朵莉思'
 }

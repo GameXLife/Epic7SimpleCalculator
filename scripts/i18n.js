@@ -60,7 +60,7 @@ lang_HeroName["zh"] = {
     'sage-baal-sezan': '賢者巴爾&塞尚',
     'seaside-bellona': '海邊的維爾蘿娜',
     'sez': '賽茲',
-    'sigret': '賽坷蘭特',
+    'sigret': '賽珂蘭特',
     'silver-blade-aramintha': '白銀刀刃的雅拉敏塔',
     'sol': '索爾',
     'specimen-sez': '實驗體賽茲',
@@ -201,6 +201,7 @@ lang_HeroName["zh"] = {
     'ian':'伊安',
     'sonia':'蘇尼婭', 
     'flan':'芙蘭',
-    'operator-sigret':'操作員賽坷蘭特',
-    'magic-scholar-doris':'魔法學者朵莉思'
+    'operator-sigret':'操作員賽珂蘭特',
+    'magic-scholar-doris':'魔法學者朵莉思',
+    'mort':'魔勒'
 }

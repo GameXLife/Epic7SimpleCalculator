@@ -413,9 +413,9 @@ function calcEquipmentNeedValue(){
 	let targetEffRes = $(elementName.TargetEffResValue).val();
 
 	//lv85
-	let equip85Atk = ((targetATK < (currentState.atk + lv85ATkValue)))? 0:((targetATK - lv85ATkValue)/currentState.atk * 100).toFixed(2);
-	let equip85HP = ((targetHP < (currentState.hp + lv85HPValue)))? 0:((targetHP - lv85HPValue)/currentState.hp * 100).toFixed(2);
-	let equip85DEF = ((targetDEF < (currentState.def + lv85DefValue)))? 0:((targetDEF - lv85DefValue)/currentState.def * 100).toFixed(2);
+	let equip85Atk = ((targetATK < (currentState.atk + lv85ATkValue)))? 0:(((targetATK - lv85ATkValue)/currentState.atk - 1) * 100).toFixed(2);
+	let equip85HP = ((targetHP < (currentState.hp + lv85HPValue)))? 0:(((targetHP - lv85HPValue)/currentState.hp - 1) * 100).toFixed(2);
+	let equip85DEF = ((targetDEF < (currentState.def + lv85DefValue)))? 0:(((targetDEF - lv85DefValue)/currentState.def - 1) * 100).toFixed(2);
 	let equip85Spd = targetSpd < currentState.spd? 0:(targetSpd - currentState.spd);
 	let equip85CR = targetCR < currentState.chc? 0:(targetCR - currentState.chc * 100).toFixed(2);
 	let equip85CDMG = targetCDMG < currentState.chd? 0:(targetCDMG - currentState.chd * 100).toFixed(2);
@@ -432,9 +432,9 @@ function calcEquipmentNeedValue(){
 	$(elementName.lv85needEffRes).html(`${equip85EffRes}%`);
 	
 	//lv90
-	let equip90Atk = ((targetATK < (currentState.atk + lv90ATkValue)))? 0:((targetATK - lv90ATkValue)/currentState.atk * 100).toFixed(2);
-	let equip90HP = ((targetHP < (currentState.hp + lv90HPValue)))? 0:((targetHP - lv90HPValue)/currentState.hp * 100).toFixed(2);
-	let equip90DEF = ((targetDEF < (currentState.def + lv90DefValue)))? 0:((targetDEF - lv90DefValue)/currentState.def * 100).toFixed(2);
+	let equip90Atk = ((targetATK < (currentState.atk + lv90ATkValue)))? 0:(((targetATK - lv90ATkValue)/currentState.atk - 1) * 100).toFixed(2);
+	let equip90HP = ((targetHP < (currentState.hp + lv90HPValue)))? 0:(((targetHP - lv90HPValue)/currentState.hp - 1) * 100).toFixed(2);
+	let equip90DEF = ((targetDEF < (currentState.def + lv90DefValue)))? 0:(((targetDEF - lv90DefValue)/currentState.def - 1) * 100).toFixed(2);
 	let equip90Spd = targetSpd < currentState.spd? 0:(targetSpd - currentState.spd);
 	let equip90CR = targetCR < currentState.chc? 0:(targetCR - currentState.chc * 100).toFixed(2);
 	let equip90CDMG = targetCDMG < currentState.chd? 0:(targetCDMG - currentState.chd * 100).toFixed(2);

@@ -13,11 +13,11 @@
 				<h2 class="blockTitleBG">亂速可能性評估</h2>
 				<div>
 					<label>一速</label>
-					<input id="CharSpeedfirstSlider" class="slider" type="range" min="50" max="300" value="150" onmousemove="speedSliderValueChanged()">
+					<input id="CharSpeedfirstSlider" class="slider" type="range" min="50" max="350" value="150" onmousemove="speedSliderValueChanged()">
 					<input type="text" id="CharSpeedfirst" value="150" class="inputTextBox" onchange="speedInputTextChanged()">
 					<br>
 					<label>二速</label>
-					<input id="CharSpeedsecondSlider" class="slider" type="range" min="50" max="300" value="150" onmousemove="speedSliderValueChanged()">
+					<input id="CharSpeedsecondSlider" class="slider" type="range" min="50" max="350" value="150" onmousemove="speedSliderValueChanged()">
 					<input type="text" id="CharSpeedsecond" value="150" class="inputTextBox" onchange="speedInputTextChanged()">
 				</div>
 
@@ -32,6 +32,50 @@
 					<label>二速不變，一速需高於 </label>
 					<label id="lowestFirSpeed">???</label>
 					<label> 才不會亂速</label><br>
+				</div>
+			</div>
+			
+			<div id="SpeedDisorderBlock2" class="blockBG">
+				<h2 class="blockTitleBG">三速超車可能性評估</h2>
+				<div>
+					<label>一速</label>
+					<input id="CharSpeedfirstSlider2" class="slider" type="range" min="50" max="350" value="150" onmousemove="speedSliderValueChanged2()">
+					<input type="text" id="CharSpeedfirst2" value="150" class="inputTextBox" onchange="speedInputTextChanged2()">
+					<br>
+					<label>二速</label>
+					<input id="CharSpeedsecondSlider2" class="slider" type="range" min="50" max="350" value="150" onmousemove="speedSliderValueChanged2()">
+					<input type="text" id="CharSpeedsecond2" value="150" class="inputTextBox" onchange="speedInputTextChanged2()">
+					<br>
+					<label>三速</label>
+					<input id="CharSpeedthirdSlider2" class="slider" type="range" min="50" max="350" value="150" onmousemove="speedSliderValueChanged2()">
+					<input type="text" id="CharSpeedthird2" value="150" class="inputTextBox" onchange="speedInputTextChanged2()">
+				</div>
+
+				<div>
+					<span id="possibility"></span>
+				</div>
+				
+				<div>
+					<input id="firstSpeedhasCRRandom" type="checkbox">一速亂速
+					<input id="secondSpeedhasCRRandom" type="checkbox">二速亂速
+					<input id="thirdSpeedhasCRRandom" type="checkbox">三速亂速
+					<br>
+					<input id="hasSpeedBuff" type="checkbox">一速跑到後三速被上速度buff
+					<br>
+					<input id="hasSpeedDebuff" type="checkbox">一速跑到後三速被上速度debuff
+					<br>
+					<input id="hasCRPush" type="checkbox">一速跑到後，三速被拉條
+					<input type="text" id="thirdSpeedGotCRPush" value="0" class="inputTextBox">%
+					<br>
+					<button type="button" onclick="advancedCRCalc(true)">計算</button>
+				</div>
+
+				<div>
+					<label id="canthirdspeedcutoff"></label>
+					<br>
+					<label id="howmuchsecondspeedcan"></label>
+					<br>
+					<label id="howmuchthirdspeedcan"></label>
 				</div>
 			</div>
 

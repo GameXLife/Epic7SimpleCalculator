@@ -203,5 +203,6 @@ lang_HeroName["zh"] = {
     'flan':'芙蘭',
     'operator-sigret':'操作員賽珂蘭特',
     'magic-scholar-doris':'魔法學者朵莉思',
-    'mort':'魔勒'
+    'mort':'魔勒',
+    'politis':'佛里蒂絲'
 }

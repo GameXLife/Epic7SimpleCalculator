@@ -6,6 +6,24 @@ const elementName = {
 	CharSpeedsecond: "#CharSpeedsecond",
 	CharSpeedfirstSlider: "#CharSpeedfirstSlider",
 	CharSpeedsecondSlider: "#CharSpeedsecondSlider",
+
+	CharSpeedfirst2: "#CharSpeedfirst2",
+	CharSpeedsecond2: "#CharSpeedsecond2",
+	CharSpeedthird2: "#CharSpeedthird2",
+	CharSpeedfirstSlider2: "#CharSpeedfirstSlider2",
+	CharSpeedsecondSlider2: "#CharSpeedsecondSlider2",
+	CharSpeedthirdSlider2: "#CharSpeedthirdSlider2",
+	firstSpeedhasCRRandom:"#firstSpeedhasCRRandom",
+	secondSpeedhasCRRandom:"#secondSpeedhasCRRandom",
+	thirdSpeedhasCRRandom:"#thirdSpeedhasCRRandom",
+	hasSpeedBuff: "#hasSpeedBuff",
+	hasSpeedDebuff: "#hasSpeedDebuff",
+	hasCRPush: "#hasCRPush",
+	thirdSpeedGotCRPush: "#thirdSpeedGotCRPush",
+	canthirdspeedcutoff: "#canthirdspeedcutoff",
+	howmuchsecondspeedcan:"#howmuchsecondspeedcan",
+	howmuchthirdspeedcan: "#howmuchthirdspeedcan",
+
 	PercentValue1: "#percentValue1",
 	PercentValue2: "#percentValue2",
 	PercentValue3: "#percentValue3",
@@ -136,6 +154,108 @@ function speedSliderValueChanged(){
 	v2.val(s2.val());
 	
 	calcCRRandomPossibility(v1, v2);
+}
+
+function advancedCRCalc(){
+	// let v1 = $(elementName.CharSpeedfirst2);
+	// let v2 = $(elementName.CharSpeedsecond2);
+	// let v3 = $(elementName.CharSpeedthird2);
+
+	let x = Number($(elementName.CharSpeedfirst2).val());//x
+	let z = Number($(elementName.CharSpeedsecond2).val());//z
+	let y = Number($(elementName.CharSpeedthird2).val());//y
+
+	let FShasCRRandom = $(elementName.firstSpeedhasCRRandom).is(":checked");
+	let SShasCRRandom = $(elementName.secondSpeedhasCRRandom).is(":checked");
+	let TShasCRRandom = $(elementName.thirdSpeedhasCRRandom).is(":checked");
+	
+	let TShasSpeedBuff = $(elementName.hasSpeedBuff).is(":checked");
+	let TShasSpeedDebuff = $(elementName.hasSpeedDebuff).is(":checked");
+	let TShasCRPush = $(elementName.hasCRPush).is(":checked");
+	let TShasCRPushValue = (Number($(elementName.thirdSpeedGotCRPush).val())/100).toFixed(2);
+	
+	let thirdtotalhaspush = TShasCRPush?TShasCRPushValue:0;
+
+	let FSCRRandom = FShasCRRandom?0.95:1;//x亂
+	let SSCRPercent = 1-(SShasCRRandom?0.05:0);//z亂
+	let TSCRPercent = 1-(TShasCRRandom?0.05:0)-thirdtotalhaspush;//y亂
+	let thirdtotalspeedup = 1+(TShasSpeedBuff?0.3:0) + (TShasSpeedDebuff?(-0.3):0);//y加
+
+	if(!x && !y && !z)
+	{
+		alert("不可三個速度皆為空");
+		return;
+	}else if(!x){
+		alert("無一速數值你在這邊想算什麼？");
+		return;
+	}
+	
+	if(x && y){
+		//計算二速公式，目的：已知一三速，則二速只要小於此計算值，三速就可以超車
+		//z < x*z亂/(x亂*(1-1/y加)+(y亂/y加)*(x/y))
+		let secondspeedMaxValue = (x*SSCRPercent) / (FSCRRandom*(1-(1/thirdtotalspeedup)) + ((x/y)*(TSCRPercent/thirdtotalspeedup)));
+		$(elementName.howmuchsecondspeedcan).html(`二速低於${secondspeedMaxValue.toFixed(2)}，三速就可以超車`);
+	}
+	
+	if(x && z){
+		//計算三速公式，目的：已知一二速，則三速大於此計算值就可超車二速
+		//y > (y亂*x/y加)/(z亂*x/z - x亂*(1-1/y加))
+		let thirdspeedMinValue = (TSCRPercent*x/thirdtotalspeedup)/(SSCRPercent*x/z - FSCRRandom*(1-1/thirdtotalspeedup));
+		$(elementName.howmuchthirdspeedcan).html(`三速高於${thirdspeedMinValue.toFixed(2)}，就可以超車二速`);
+	}
+	
+	if(x && y && z){
+		if(thirdtotalhaspush !== 0)
+		{
+			let isthirdgotpushoveronehundred = (1-(TShasCRRandom?0.05:0)-y/x*(FShasCRRandom?0.95:1))-thirdtotalhaspush;
+			if(isthirdgotpushoveronehundred < 0)
+				{
+					$(elementName.canthirdspeedcutoff).html("三速可以超車二速")
+					$(elementName.canthirdspeedcutoff).attr("style", "color: green");
+					return;
+				}
+		}
+		
+		//驗證三速超車二速公式，目的：一二三速已知情況下，三速能否超車對手
+		//x亂*(1-1/y加) < x*(z亂/z-y亂/(y加*y))
+		let thirdcanoversecond = ((FSCRRandom*(1-1/thirdtotalspeedup)) < (x*(SSCRPercent/z-TSCRPercent/(thirdtotalspeedup*y))));
+
+		if(thirdcanoversecond){
+			$(elementName.canthirdspeedcutoff).html("三速可以超車二速")
+			$(elementName.canthirdspeedcutoff).attr("style", "color: green");
+		}else{
+			$(elementName.canthirdspeedcutoff).html("三速無法超車二速")
+			$(elementName.canthirdspeedcutoff).attr("style", "color: red");
+		}
+	}
+}
+
+function speedInputTextChanged2(){
+	let v1 = $(elementName.CharSpeedfirst2);
+	let v2 = $(elementName.CharSpeedsecond2);
+	let v3 = $(elementName.CharSpeedthird2);
+
+	let s1 = $(elementName.CharSpeedfirstSlider2);
+	let s2 = $(elementName.CharSpeedsecondSlider2);
+	let s3 = $(elementName.CharSpeedthirdSlider2);
+
+	s1.val(Number(v1.val()));
+	s2.val(Number(v2.val()));
+	s3.val(Number(v3.val()));
+}
+
+function speedSliderValueChanged2(){
+	let v1 = $(elementName.CharSpeedfirst2);
+	let v2 = $(elementName.CharSpeedsecond2);
+	let v3 = $(elementName.CharSpeedthird2);
+
+	let s1 = $(elementName.CharSpeedfirstSlider2);
+	let s2 = $(elementName.CharSpeedsecondSlider2);
+	let s3 = $(elementName.CharSpeedthirdSlider2);
+
+	v1.val(s1.val());
+	v2.val(s2.val());
+	v3.val(s3.val());
 }
 
 function calcEffcientHP(hpID, defID, resultID){

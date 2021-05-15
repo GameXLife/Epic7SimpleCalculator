@@ -622,4 +622,5 @@ function heronamelistRes(herolist){
 		let option = $('<option/>').attr("id", element._id).attr("value", lang_HeroName[curLang][element._id]?lang_HeroName[curLang][element._id]:element._id).html(lang_HeroName[curLang][element._id]?lang_HeroName[curLang][element._id]:element._id);//new Option(element._id, element._id);
 		dropdownmenu.append(option);
 	});
+	// console.log(dropdownmenu);
 }

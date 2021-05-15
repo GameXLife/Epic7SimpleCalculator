@@ -204,5 +204,15 @@ lang_HeroName["zh"] = {
     'operator-sigret':'操作員賽珂蘭特',
     'magic-scholar-doris':'魔法學者朵莉思',
     'mort':'魔勒',
-    'politis':'佛里蒂絲'
+    'politis':'佛里蒂絲',
+    "archdemons-shadow": "魔神的暗影",
+    "bomb-model-kanna": "暴擊型卡農",
+    "designer-lilibet": "設計師莉莉貝",
+    "fairytale-tenebria": "童話泰妮布里雅",
+    "mediator-kawerik": "協調者卡威利",
+    "senya": "賽娜",
+    "solitaria-of-the-snow": "雪國的蘇莉塔妮亞",
+    "great-chief-khawana": "大族長卡瓦娜",
+    "muse-rima": "謬斯黎瑪",
+    "zealot-carmainerose": "傳道者卡麥蘿茲"
 }
